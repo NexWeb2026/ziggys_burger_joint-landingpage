@@ -1,0 +1,78 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/*
+ * CSS variables derived from siteConfig.colors block.
+ * Single source of truth for colors lives in siteConfig.ts —
+ * these mirror that block. Do not hardcode color values elsewhere.
+ */
+:root {
+  --status-success-08: color-mix(in srgb, var(--status-success) 8%, transparent);
+  --status-success-10: color-mix(in srgb, var(--status-success) 10%, transparent);
+
+  --brand-primary-opaque-12: color-mix(in srgb, var(--brand-primary) 12%, transparent);
+  --brand-primary-opaque-15: color-mix(in srgb, var(--brand-primary) 15%, transparent);
+
+  --overlay-50: color-mix(in srgb, var(--ui-page) 50%, transparent);
+  --overlay-85: color-mix(in srgb, var(--ui-page) 85%, transparent);
+
+  --font-heading: "Barlow Condensed", sans-serif;
+  --font-body: "Barlow", sans-serif;
+}
+
+@theme inline {
+  --color-brand: var(--brand-primary);
+  --color-brand-soft: var(--brand-primary-soft);
+  --color-brand-strong: var(--brand-primary-strong);
+  --color-on-brand: var(--brand-on-primary);
+  --color-page: var(--ui-page);
+  --color-panel: var(--ui-panel);
+  --color-panel-alt: var(--ui-panel-alt);
+  --color-ink: var(--ui-text);
+  --color-ink-muted: var(--ui-text-muted);
+  --color-ink-subtle: var(--ui-text-subtle);
+  --color-line: var(--ui-border);
+  --color-line-strong: var(--ui-border-strong);
+  --font-display: var(--font-heading);
+  --font-sans: var(--font-body);
+}
+
+@layer base {
+  * { border-color: var(--ui-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--ui-page);
+    color: var(--ui-text);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at top, color-mix(in srgb, var(--brand-primary) 14%, transparent) 0%, transparent 34%),
+      radial-gradient(circle at bottom right, color-mix(in srgb, var(--status-warning) 10%, transparent) 0%, transparent 28%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-heading);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+}
+
+@layer utilities {
+  .fade-up {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .fade-up.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .text-gradient-gold {
+    background: linear-gradient(135deg, var(--status-warning), var(--brand-primary), var(--brand-primary-strong));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .ring-brand { box-shadow: 0 0 0 1px var(--brand-primary), 0 0 0 4px color-mix(in srgb, var(--brand-primary) 16%, transparent); }
+}
