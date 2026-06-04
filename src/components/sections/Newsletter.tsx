@@ -4,10 +4,10 @@ import { useReveal } from "@/lib/hooks";
 import { Mail, Check } from "lucide-react";
 
 export function Newsletter() {
-  if (!siteConfig.sections.newsletter) return null;
   const ref = useReveal<HTMLDivElement>();
   const [submitted, setSubmitted] = useState(false);
   const [email, setEmail] = useState("");
+  if (!siteConfig.sections.newsletter) return null;
 
   return (
     <section id="stay-updated" className="px-4 py-16">

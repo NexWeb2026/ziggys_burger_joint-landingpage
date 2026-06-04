@@ -13,7 +13,7 @@ export function WhatsAppFloat() {
       style={{ background: "var(--brand-primary)" }}
     >
       <img
-        src={siteConfig.iconAssets.whatsappBlack}
+        src={siteConfig.iconAssets.whatsapp}
         alt="WhatsApp"
         width={28}
         height={28}

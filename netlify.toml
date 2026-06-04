@@ -1,0 +1,6 @@
+[build]
+  command = "vite build && cp public/_redirects dist/client/_redirects"
+  publish = "dist/client"
+
+[build.environment]
+  NODE_VERSION = "20"

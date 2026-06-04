@@ -3,10 +3,10 @@ import { useReveal } from "@/lib/hooks";
 import { Star } from "lucide-react";
 
 export function Reviews() {
+  const ref = useReveal<HTMLDivElement>();
   const showReviews = siteConfig.sections.reviews;
   const showPress = siteConfig.sections.pressFeatures;
   if (!showReviews && !showPress) return null;
-  const ref = useReveal<HTMLDivElement>();
 
   return (
     <>

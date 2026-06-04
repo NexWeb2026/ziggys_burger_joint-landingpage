@@ -1,45 +1,57 @@
+import React from "react";
 import { useMemo, useState } from "react";
 import { siteConfig, type MenuTag, type MenuEntry } from "@/siteConfig";
-import { Search, Download, UtensilsCrossed } from "lucide-react";
+import { Search, UtensilsCrossed } from "lucide-react";
 import { createImagePlaceholder, isFilled, setImageFallback } from "@/lib/utils";
 
 const CATEGORY_IDS: Record<string, string> = {
+  Grills: "grills",
+  Combos: "combos",
+  Burgers: "burgers",
+  "Smash Burgers": "smash-burgers",
   Starters: "starters",
-  Mains: "mains",
+  "Light Meals": "light-meals",
+  "Junior Favourites": "junior-favourites",
   Desserts: "desserts",
-  "Wine & Drinks": "wine-drinks",
+  Drinks: "drinks",
 };
 
 export function MenuSection() {
-  const showMenuGrid = siteConfig.sections.menuGrid;
-  const showTastingMenu = siteConfig.sections.tastingMenu;
-  if (!showMenuGrid && !showTastingMenu) return null;
-
   const [category, setCategory] = useState<(typeof siteConfig.menuFilters.categories)[number]>("All");
   const [tags, setTags] = useState<MenuTag[]>([]);
   const [query, setQuery] = useState("");
+  const showMenuGrid = siteConfig.sections.menuGrid;
+  const showTastingMenu = siteConfig.sections.tastingMenu;
+  const categories = siteConfig.menuFilters.categories;
+  const categoryList = categories.filter((c) => c !== "All");
 
   const filtered = useMemo(() => {
+    const search = query.trim().toLowerCase();
     return siteConfig.menu.filter((m) => {
       if (category !== "All" && m.category !== category) return false;
       if (tags.length && !tags.every((t) => m.tags.includes(t))) return false;
-      if (query && !m.name.toLowerCase().includes(query.toLowerCase())) return false;
+      if (search) {
+        const haystack = `${m.name} ${m.description} ${m.pairingNote ?? ""}`.toLowerCase();
+        if (!haystack.includes(search)) return false;
+      }
       return true;
     });
   }, [category, tags, query]);
 
   const grouped = useMemo(() => {
-    const cats = ["Starters", "Mains", "Desserts", "Wine & Drinks"] as const;
-    return cats
+    return categoryList
       .filter((c) => category === "All" || category === c)
       .map((c) => ({ category: c, items: filtered.filter((m) => m.category === c) }))
       .filter((g) => g.items.length > 0);
-  }, [filtered, category]);
+  }, [filtered, category, categoryList]);
 
   const toggleTag = (t: MenuTag) =>
     setTags((cur) => (cur.includes(t) ? cur.filter((x) => x !== t) : [...cur, t]));
 
+  if (!showMenuGrid && !showTastingMenu) return null;
+
   return (
+    
     <section id="menu-grid" className="px-4 py-14">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 text-center">
@@ -61,7 +73,9 @@ export function MenuSection() {
               <div className="text-xl font-black tracking-[0.04em]" style={{ color: "var(--brand-primary)" }}>
                 {siteConfig.tastingMenu.price}
               </div>
-              <div className="text-xs font-medium uppercase tracking-[0.08em]" style={{ color: "var(--ui-text-muted)" }}>+ {siteConfig.tastingMenu.winePairing}</div>
+              {siteConfig.tastingMenu.winePairing && (
+                <div className="text-xs font-medium uppercase tracking-[0.08em]" style={{ color: "var(--ui-text-muted)" }}>+ {siteConfig.tastingMenu.winePairing}</div>
+              )}
             </div>
           </div>
         )}
@@ -70,10 +84,11 @@ export function MenuSection() {
           <>
             <div className="mb-8 space-y-4">
               <div className="flex flex-wrap gap-2">
-                {siteConfig.menuFilters.categories.map((c) => (
+                {categories.map((c) => (
                   <button
                     key={c}
                     onClick={() => setCategory(c)}
+                    type="button"
                     className="min-h-11 rounded-full px-4 py-2 text-sm font-bold uppercase tracking-[0.08em] transition-colors"
                     style={{
                       background: category === c ? "var(--brand-primary)" : "var(--ui-panel)",
@@ -92,6 +107,7 @@ export function MenuSection() {
                     <button
                       key={t}
                       onClick={() => toggleTag(t)}
+                      type="button"
                       className="min-h-11 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] transition-colors"
                       style={{
                         background: active ? "var(--brand-primary-strong)" : "transparent",
@@ -104,7 +120,7 @@ export function MenuSection() {
                   );
                 })}
                 {tags.length > 0 && (
-                  <button onClick={() => setTags([])} className="text-xs font-bold uppercase tracking-[0.08em] underline" style={{ color: "var(--ui-text-subtle)" }}>
+                  <button onClick={() => setTags([])} type="button" className="text-xs font-bold uppercase tracking-[0.08em] underline" style={{ color: "var(--ui-text-subtle)" }}>
                     Clear tags
                   </button>
                 )}
@@ -136,13 +152,6 @@ export function MenuSection() {
             ))}
 
             <div className="mt-16 text-center space-y-6">
-              <button
-                className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-bold uppercase tracking-[0.1em]"
-                style={{ borderColor: "var(--brand-primary)", color: "var(--brand-primary-soft)" }}
-                onClick={() => alert("PDF download coming soon.")}
-              >
-                <Download size={16} /> Grab the PDF
-              </button>
               <p className="mx-auto max-w-2xl text-xs font-medium uppercase tracking-[0.06em]" style={{ color: "var(--ui-text-subtle)" }}>
                 Please inform your server of any allergies or dietary requirements. Our kitchen handles nuts,
                 dairy, gluten, shellfish and eggs and cannot guarantee complete absence of trace allergens.

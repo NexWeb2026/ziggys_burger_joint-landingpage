@@ -17,9 +17,9 @@ export function StickyBanner() {
       }}
     >
       {isOpenNow && today ? (
-        <Link to="/reservations" className="inline-flex items-center gap-2 font-bold uppercase tracking-[0.12em] hover:underline">
+        <Link to="/contact" className="inline-flex items-center gap-2 font-bold uppercase tracking-[0.12em] hover:underline">
           <Sparkles size={16} />
-          Open now. Book a table: {today.openTime}-{today.closeTime}.
+          Open now. Get a table: {today.openTime}-{today.closeTime}.
         </Link>
       ) : (
         <Link to="/contact" hash="find-us" className="inline-flex items-center gap-2 font-bold uppercase tracking-[0.12em] hover:underline">
