@@ -16,7 +16,7 @@ export function ContactDetails() {
           <p className="mt-3 text-sm uppercase tracking-[0.08em]" style={{ color: "var(--ui-text-muted)" }}>{siteConfig.contact.responseTimeNote}</p>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid gap-5 md:grid-cols-3">
           <a
             href={`tel:${siteConfig.contact.phone}`}
             className="flex items-center gap-4 rounded-2xl border p-6 transition-colors hover:bg-[var(--brand-primary-opaque-12)]"
@@ -51,18 +51,6 @@ export function ContactDetails() {
             </a>
           )}
 
-          <a
-            href={`mailto:${siteConfig.contact.email}`}
-            className="flex items-center gap-4 rounded-2xl border p-6 transition-colors hover:bg-[var(--brand-primary-opaque-12)]"
-            style={{ background: "var(--ui-panel)", borderColor: "var(--ui-border)" }}
-          >
-            <Mail style={{ color: "var(--brand-primary)" }} />
-            <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: "var(--ui-text-muted)" }}>Email</div>
-              <div className="text-lg font-black break-all tracking-[0.04em]">{siteConfig.contact.email}</div>
-            </div>
-          </a>
-
           <div
             className="flex items-center gap-4 rounded-2xl border p-6"
             style={{ background: "var(--ui-panel)", borderColor: "var(--ui-border)" }}
@@ -73,22 +61,6 @@ export function ContactDetails() {
             </div>
           </div>
         </div>
-
-        {siteConfig.integrations.reservationsEnabled && (siteConfig.sections.reservationForm || siteConfig.sections.privateDining || siteConfig.sections.reservations) && (
-          <div
-            className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border p-6 md:flex-row"
-            style={{ background: "var(--ui-panel-alt)", borderColor: "var(--brand-primary-strong)" }}
-          >
-            <p className="font-medium uppercase tracking-[0.08em]" style={{ color: "var(--ui-text-muted)" }}>Need a table?</p>
-            <Link
-              to="/reservations"
-              className="rounded-full px-5 py-2.5 text-sm font-bold uppercase tracking-[0.12em]"
-              style={{ background: "linear-gradient(135deg, var(--brand-primary), var(--status-warning))", color: "var(--brand-on-primary)" }}
-            >
-              Book a Table
-            </Link>
-          </div>
-        )}
       </div>
     </section>
   );
@@ -111,11 +83,11 @@ export function EventEnquiryForm() {
     setForm({ ...form, [k]: e.target.value });
 
   return (
-    <section id="events" className="scroll-mt-32 px-4 py-16">
+    <section id="socials" className="scroll-mt-32 px-4 py-16">
       <div className="max-w-2xl mx-auto">
         <div className="mb-8 text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.28em]" style={{ color: "var(--brand-primary)" }}>Events & Private Dining</p>
-          <h2 className="text-3xl font-black tracking-[0.02em] md:text-4xl">Book Your Event</h2>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.28em]" style={{ color: "var(--brand-primary)" }}>Socials & Private Dining</p>
+          <h2 className="text-3xl font-black tracking-[0.02em] md:text-4xl">Book Your Socials</h2>
           <p className="mt-3 text-sm uppercase tracking-[0.08em]" style={{ color: "var(--ui-text-muted)" }}>{siteConfig.contact.cateringResponseNote}</p>
         </div>
 
@@ -187,71 +159,74 @@ export function LocationSection() {
           <h2 className="text-4xl font-black tracking-[0.02em] md:text-5xl">Find the Spot</h2>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-2">
-          {showMap && (
-            <div className="overflow-hidden rounded-2xl border" style={{ borderColor: "var(--ui-border-strong)" }}>
-              {isFilled(siteConfig.location.mapEmbedUrl) ? (
-                <iframe
-                  title="Map"
-                  src={siteConfig.location.mapEmbedUrl}
-                  className="w-full h-80 border-0"
-                  loading="lazy"
-                  onError={(event) => {
-                    const target = event.currentTarget;
-                    target.src = mapPlaceholder;
-                  }}
-                />
-              ) : (
-                <div
-                  className="w-full h-80"
-                  style={{
-                    backgroundImage: `url("${mapPlaceholder}")`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                />
-              )}
-              <div className="p-3 text-center" style={{ background: "var(--ui-panel-alt)" }}>
-                <a
-                  href={siteConfig.location.googleMapsUrl}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="text-sm font-bold uppercase tracking-[0.08em] underline"
-                  style={{ color: "var(--brand-primary)" }}
-                >
-                  Open in Maps
-                </a>
-              </div>
-            </div>
-          )}
-
-          <div className="space-y-5">
-            <Info icon={<MapPin size={18} />} label="Address">{siteConfig.location.address}</Info>
-
-            {showHours && (
-              <div className="rounded-xl border p-5" style={{ background: "var(--ui-panel-alt)", borderColor: "var(--ui-border)" }}>
-                <h4 className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.14em]" style={{ color: "var(--brand-primary)" }}>
-                  <Clock3 size={16} />
-                  Hours
-                </h4>
-                <ul className="space-y-1 text-sm" style={{ color: "var(--ui-text-muted)" }}>
-                  {siteConfig.hours.map((h) => (
-                    <li key={h.day} className="flex justify-between">
-                      <span>{h.day}</span>
-                      <span>{h.isOpen ? `${h.openTime}-${h.closeTime}` : "Closed"}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+        {showMap && (
+          <div className="overflow-hidden rounded-2xl border mb-8" style={{ borderColor: "var(--ui-border-strong)" }}>
+            {isFilled(siteConfig.location.mapEmbedUrl) ? (
+              <iframe
+                title="Map"
+                src={siteConfig.location.mapEmbedUrl}
+                className="block h-96 w-full border-0"
+                loading="lazy"
+                onError={(event) => {
+                  const target = event.currentTarget;
+                  target.src = mapPlaceholder;
+                }}
+              />
+            ) : (
+              <div
+                className="w-full h-96"
+                style={{
+                  backgroundImage: `url("${mapPlaceholder}")`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
             )}
-
-            <Info icon={<Car size={18} />} label="Parking">{siteConfig.location.parkingNote}</Info>
-            <Info icon={<Accessibility size={18} />} label="Accessibility">{siteConfig.location.accessibilityNote}</Info>
-            <Info icon={<CreditCard size={18} />} label="Payment">
-              {siteConfig.location.paymentMethods.join(" - ")}
-            </Info>
+            <div className="p-3 text-center" style={{ background: "var(--ui-panel-alt)" }}>
+              <a
+                href={siteConfig.location.googleMapsUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-sm font-bold uppercase tracking-[0.08em] underline"
+                style={{ color: "var(--brand-primary)" }}
+              >
+                Open in Maps
+              </a>
+            </div>
           </div>
+        )}
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <Info icon={<MapPin size={18} />} label="Address">
+            {siteConfig.location.address}
+          </Info>
+          <Info icon={<Car size={18} />} label="Parking">
+            {siteConfig.location.parkingNote}
+          </Info>
+          <Info icon={<Accessibility size={18} />} label="Accessibility">
+            {siteConfig.location.accessibilityNote}
+          </Info>
+          <Info icon={<CreditCard size={18} />} label="Payment">
+            {siteConfig.location.paymentMethods.join(" - ")}
+          </Info>
         </div>
+
+        {showHours && (
+          <div className="mt-5 rounded-xl border p-5" style={{ background: "var(--ui-panel-alt)", borderColor: "var(--ui-border)" }}>
+            <h4 className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.14em]" style={{ color: "var(--brand-primary)" }}>
+              <Clock3 size={16} />
+              Hours
+            </h4>
+            <ul className="grid gap-1 text-sm sm:grid-cols-2 lg:grid-cols-4" style={{ color: "var(--ui-text-muted)" }}>
+              {siteConfig.hours.map((h) => (
+                <li key={h.day} className="flex justify-between rounded-lg px-3 py-2" style={{ background: "var(--ui-panel)" }}>
+                  <span>{h.day}</span>
+                  <span>{h.isOpen ? `${h.openTime}-${h.closeTime}` : "Closed"}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {siteConfig.integrations.deliveryEnabled && siteConfig.sections.delivery && siteConfig.delivery.length > 0 && (
           <div className="mt-12 text-center">

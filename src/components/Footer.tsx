@@ -9,7 +9,7 @@ export function Footer() {
   const logoFallback = createImagePlaceholder(siteConfig.restaurantName, 340, 110);
   const showReservationsLink = siteConfig.integrations.reservationsEnabled && (siteConfig.sections.reservationForm || siteConfig.sections.privateDining || siteConfig.sections.reservations || siteConfig.sections.gifts);
   const showMenuLink = siteConfig.sections.menuSpecial || siteConfig.sections.menuGrid;
-  const showEventsLink = siteConfig.sections.upcomingEvents || siteConfig.sections.photoGallery || siteConfig.sections.privateHire;
+  const showSocialsLink = siteConfig.sections.socials && (siteConfig.sections.upcomingEvents || siteConfig.sections.photoGallery || siteConfig.sections.privateHire);
 
   return (
     <footer className="mt-16" style={{ background: "var(--ui-panel)", borderTop: "1px solid var(--ui-border-strong)" }}>
@@ -18,7 +18,7 @@ export function Footer() {
           <img
             src={siteConfig.branding.logo}
             alt={siteConfig.branding.logoAlt}
-            className="h-14 w-auto"
+            className="h-14 w-14 rounded-full object-cover"
             onError={(event) => setImageFallback(event, logoFallback)}
           />
           <p className="text-sm leading-relaxed" style={{ color: "var(--ui-text-muted)" }}>{siteConfig.tagline}</p>
@@ -30,7 +30,6 @@ export function Footer() {
           <ul className="space-y-2 text-sm" style={{ color: "var(--ui-text-muted)" }}>
             <li className="flex gap-2"><MapPin size={14} className="mt-0.5 shrink-0" />{siteConfig.location.address}</li>
             <li className="flex gap-2"><Phone size={14} className="mt-0.5 shrink-0" /><a href={`tel:${siteConfig.contact.phone}`}>{siteConfig.contact.phone}</a></li>
-            <li className="flex gap-2"><Mail size={14} className="mt-0.5 shrink-0" /><a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a></li>
           </ul>
         </div>
         <div>
@@ -49,13 +48,12 @@ export function Footer() {
           )}
         </div>
         <div>
-          <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.14em]" style={{ color: "var(--brand-primary)" }}>Find Us</h4>
+          <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.14em]" style={{ color: "var(--brand-primary)" }}>Socials</h4>
           <SocialIcons variant="color" size={22} />
           <p className="mt-3 text-xs" style={{ color: "var(--ui-text-subtle)" }}>{siteConfig.socials.handle}</p>
           <div className="mt-4 flex flex-col gap-2">
-            {showReservationsLink && <Link to="/reservations" className="text-sm font-semibold uppercase tracking-[0.08em] hover:underline" style={{ color: "var(--ui-text)" }}>Book a Table</Link>}
             {showMenuLink && <Link to="/menu" className="text-sm font-semibold uppercase tracking-[0.08em] hover:underline" style={{ color: "var(--ui-text)" }}>See the Menu</Link>}
-            {showEventsLink && <Link to="/events" className="text-sm font-semibold uppercase tracking-[0.08em] hover:underline" style={{ color: "var(--ui-text)" }}>What's On</Link>}
+            {showSocialsLink && <Link to="/socials" className="text-sm font-semibold uppercase tracking-[0.08em] hover:underline" style={{ color: "var(--ui-text)" }}>Socials</Link>}
           </div>
         </div>
       </div>

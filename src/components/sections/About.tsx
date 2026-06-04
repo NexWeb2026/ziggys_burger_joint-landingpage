@@ -5,12 +5,12 @@ import { Quote } from "lucide-react";
 import { createGradientPlaceholder, isFilled, setImageFallback } from "@/lib/utils";
 
 export function About() {
-  if (!siteConfig.sections.about) return null;
   const ref = useReveal<HTMLDivElement>();
   const [interiorFailed, setInteriorFailed] = useState(!isFilled(siteConfig.interiorImage));
   const [chefFailed, setChefFailed] = useState(!isFilled(siteConfig.chef.image));
   const interiorFallback = createGradientPlaceholder("Harbour Dining Room", 1200, 720);
   const chefFallback = createGradientPlaceholder(siteConfig.chef.name, 640, 760);
+  if (!siteConfig.sections.about) return null;
 
   return (
     <section id="our-story" className="px-4 py-16">

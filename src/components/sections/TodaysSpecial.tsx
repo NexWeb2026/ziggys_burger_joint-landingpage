@@ -6,12 +6,12 @@ import { Flame } from "lucide-react";
 import { createGradientPlaceholder, isFilled, setImageFallback } from "@/lib/utils";
 
 export function TodaysSpecial() {
-  if (!siteConfig.sections.todaysSpecial) return null;
   const ref = useReveal<HTMLDivElement>();
   const s = siteConfig.todaysSpecial;
   const [imageFailed, setImageFailed] = useState(!isFilled(s.image));
   const specialFallback = createGradientPlaceholder(s.name, 900, 680);
   const canReserve = siteConfig.integrations.reservationsEnabled && (siteConfig.sections.reservationForm || siteConfig.sections.privateDining || siteConfig.sections.reservations);
+  if (!siteConfig.sections.todaysSpecial) return null;
 
   return (
     <section id="tonights-special" className="px-4 py-16" style={{ background: "var(--ui-panel)" }}>

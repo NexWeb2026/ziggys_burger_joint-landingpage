@@ -17,39 +17,35 @@ function getNavItems() {
     siteConfig.sections.newsletter && { label: "Get Updates", to: "/", hash: "stay-updated" },
   ].filter(Boolean) as SubLink[];
 
-  const reservationsSubs: SubLink[] = [
-    siteConfig.sections.reservationForm && { label: "Book a Table", to: "/reservations", hash: "book-a-table" },
-    siteConfig.sections.privateDining && { label: "Private Dining", to: "/reservations", hash: "private-dining" },
-    siteConfig.sections.reservations && { label: "Large Groups", to: "/reservations", hash: "large-groups" },
-    siteConfig.sections.gifts && { label: "Gifts & Loyalty", to: "/reservations", hash: "gifts" },
-  ].filter(Boolean) as SubLink[];
-
   const menuSubs: SubLink[] = [
     siteConfig.sections.menuSpecial && siteConfig.sections.todaysSpecial && { label: "Today's Special", to: "/menu", hash: "tonights-special" },
+    siteConfig.sections.menuGrid && { label: "Grills", to: "/menu", hash: "grills" },
+    siteConfig.sections.menuGrid && { label: "Combos", to: "/menu", hash: "combos" },
+    siteConfig.sections.menuGrid && { label: "Burgers", to: "/menu", hash: "burgers" },
+    siteConfig.sections.menuGrid && { label: "Smash Burgers", to: "/menu", hash: "smash-burgers" },
     siteConfig.sections.menuGrid && { label: "Starters", to: "/menu", hash: "starters" },
-    siteConfig.sections.menuGrid && { label: "Mains", to: "/menu", hash: "mains" },
-    siteConfig.sections.menuGrid && { label: "Desserts", to: "/menu", hash: "desserts" },
-    siteConfig.sections.menuGrid && { label: "Wine & Drinks", to: "/menu", hash: "wine-drinks" },
+    siteConfig.sections.menuGrid && { label: "Light Meals", to: "/menu", hash: "light-meals" },
+    siteConfig.sections.menuGrid && { label: "Junior Favourites", to: "/menu", hash: "junior-favourites" },
+    siteConfig.sections.menuGrid && { label: "Drinks", to: "/menu", hash: "drinks" },
   ].filter(Boolean) as SubLink[];
 
-  const eventsSubs: SubLink[] = [
-    siteConfig.sections.upcomingEvents && { label: "Upcoming Events", to: "/events", hash: "upcoming-events" },
-    siteConfig.sections.photoGallery && { label: "Gallery", to: "/events", hash: "gallery" },
-    siteConfig.sections.privateHire && { label: "Private Hire", to: "/events", hash: "private-hire" },
+  const socialsSubs: SubLink[] = [
+    siteConfig.sections.upcomingEvents && { label: "Upcoming Events", to: "/socials", hash: "upcoming-events" },
+    siteConfig.sections.photoGallery && { label: "Gallery", to: "/socials", hash: "gallery" },
+    siteConfig.sections.privateHire && { label: "Private Hire", to: "/socials", hash: "private-hire" },
   ].filter(Boolean) as SubLink[];
 
   const hasFindUsContent = siteConfig.sections.locationMap || siteConfig.sections.hours || siteConfig.sections.location;
   const contactSubs: SubLink[] = [
     siteConfig.sections.contactDetails && { label: "Hit Us Up", to: "/contact", hash: "get-in-touch" },
-    siteConfig.sections.eventsForm && { label: "Private Dining Enquiry", to: "/contact", hash: "events" },
+    siteConfig.sections.eventsForm && { label: "Group Booking Enquiry", to: "/contact", hash: "socials" },
     hasFindUsContent && { label: "Find Us", to: "/contact", hash: "find-us" },
   ].filter(Boolean) as SubLink[];
 
   const navItems: NavItem[] = [];
   if (homeSubs.length > 0) navItems.push({ label: "Home", to: "/", subs: homeSubs });
-  if (reservationsSubs.length > 0) navItems.push({ label: "Reservations", to: "/reservations", subs: reservationsSubs });
   if (menuSubs.length > 0) navItems.push({ label: "Menu", to: "/menu", subs: menuSubs });
-  if (eventsSubs.length > 0) navItems.push({ label: "Events", to: "/events", subs: eventsSubs });
+  if (siteConfig.sections.socials && socialsSubs.length > 0) navItems.push({ label: "Socials", to: "/socials", subs: socialsSubs });
   if (contactSubs.length > 0) navItems.push({ label: "Contact", to: "/contact", subs: contactSubs });
   return navItems;
 }
@@ -59,7 +55,6 @@ export function Navbar() {
   const [accordion, setAccordion] = useState<string | null>(null);
   const location = useLocation();
   const navItems = useMemo(() => getNavItems(), []);
-  const showReserveCta = siteConfig.integrations.reservationsEnabled && navItems.some((item) => item.label === "Reservations");
   const logoFallback = createImagePlaceholder(siteConfig.restaurantName, 300, 96);
 
   return (
@@ -67,24 +62,24 @@ export function Navbar() {
       className="sticky top-0 z-40 backdrop-blur-md"
       style={{ background: "color-mix(in srgb, var(--ui-panel) 92%, transparent)", borderBottom: "1px solid var(--ui-border-strong)" }}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5">
-        <Link to="/" className="flex items-center gap-2">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-1.5">
+        <Link to="/" className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full" onClick={() => setMobileOpen(false)}>
           <img
             src={siteConfig.branding.logo}
             alt={siteConfig.branding.logoAlt}
-            className="h-11 w-auto md:h-12"
+            className="block h-full w-full rounded-full object-cover"
             onError={(event) => setImageFallback(event, logoFallback)}
           />
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden flex-1 items-center justify-center gap-1 lg:flex">
           {navItems.map((item) => {
             const isActive = location.pathname === item.to;
             return (
               <div key={item.label} className="relative group">
                 <Link
                   to={item.to}
-                  className="inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-bold uppercase tracking-[0.18em] transition-colors"
+                  className="inline-flex h-9 items-center gap-1 rounded-full px-4 text-sm font-bold uppercase tracking-[0.18em] transition-colors"
                   style={{
                     color: isActive ? "var(--brand-primary)" : "var(--ui-text)",
                     background: isActive ? "var(--brand-primary-opaque-12)" : "transparent",
@@ -116,24 +111,16 @@ export function Navbar() {
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden h-9 shrink-0 items-center lg:flex">
           <SocialIcons variant="color" size={18} />
-          {showReserveCta && (
-            <Link
-              to="/reservations"
-              className="rounded-full px-5 py-2.5 text-sm font-bold uppercase tracking-[0.14em] transition-transform hover:-translate-y-0.5"
-              style={{ background: "linear-gradient(135deg, var(--brand-primary), var(--status-warning))", color: "var(--brand-on-primary)" }}
-            >
-              Book a Table
-            </Link>
-          )}
         </div>
 
         <button
-          className="lg:hidden flex min-h-11 min-w-11 items-center justify-center rounded-full border"
+          className="flex min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border lg:hidden"
           style={{ borderColor: "var(--ui-border-strong)", color: "var(--ui-text)" }}
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle menu"
+          type="button"
         >
           {mobileOpen ? <X /> : <Menu />}
         </button>
@@ -159,6 +146,7 @@ export function Navbar() {
                       onClick={() => setAccordion(open ? null : item.label)}
                       className="min-h-11 min-w-11 p-3"
                       aria-label={`Toggle ${item.label} sub-menu`}
+                      type="button"
                     >
                       <ChevronDown size={18} className={open ? "rotate-180 transition-transform" : "transition-transform"} />
                     </button>
@@ -182,18 +170,10 @@ export function Navbar() {
                 </div>
               );
             })}
-            <div className="flex items-center justify-between py-4">
+            <div className="mt-4 rounded-2xl border p-4" style={{ borderColor: "var(--ui-border)", background: "var(--ui-panel-alt)" }}>
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em]" style={{ color: "var(--ui-text-muted)" }}>Socials</p>
               <SocialIcons variant="color" size={20} />
-              {showReserveCta && (
-                <Link
-                  to="/reservations"
-                  onClick={() => setMobileOpen(false)}
-                  className="rounded-full px-4 py-2.5 text-sm font-bold uppercase tracking-[0.12em]"
-                  style={{ background: "var(--brand-primary)", color: "var(--brand-on-primary)" }}
-                >
-                  Book
-                </Link>
-              )}
+              <p className="mt-3 text-xs uppercase tracking-[0.08em]" style={{ color: "var(--ui-text-subtle)" }}>{siteConfig.socials.handle}</p>
             </div>
           </div>
         </div>
