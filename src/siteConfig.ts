@@ -1,4 +1,4 @@
-﻿import logoPng from "@/assets/png/logo.jpg";
+﻿import logoPng from "@/assets/images/logo.jpg";
 
 import facebookIconBlack from "@/assets/svg/facebook_black.svg";
 import instagramIconBlack from "@/assets/svg/instagram_black.svg";
@@ -15,6 +15,12 @@ import whatsappIcon from "@/assets/svg/whatsapp.svg";
 import xIcon from "@/assets/svg/x.svg";
 import uberEatsIcon from "@/assets/svg/ubereats.svg";
 import mrdFoodIcon from "@/assets/svg/mrdfoods.svg";
+
+const imageAssets = import.meta.glob<{ default: string }>("./assets/images/*.{jpg,jpeg,png,webp}", {
+  eager: true,
+});
+
+const imageUrl = (filename: string) => imageAssets[`./assets/images/${filename}`]?.default ?? "";
 
 export type WeeklyHours = {
   day: string;
@@ -162,12 +168,12 @@ export const siteConfig = {
     title: "Front of House",
     bio: "Glen is the face of Ziggy's - known for his warm hospitality and spot-on recommendations. Whether it's your first time or a regular Tuesday, he'll steer you right every time.",
     quote: "Let me help you find your new favourite.",
-    image: "https://scontent-cpt1-1.xx.fbcdn.net/v/t39.30808-6/472817538_584965984287542_341855816063596691_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=WZQvlhkmT3MQ7kNvwGCo2zP&_nc_oc=AdqofPZj_FwnVX9Rw4qpuAsos0jNsvezYIHe99SPuG-cXSpw_P_E_Ml0C_gZfh32vxk&_nc_zt=23&_nc_ht=scontent-cpt1-1.xx&_nc_gid=q4ngXkzfICI04VEoeII6zQ&_nc_ss=7b289&oh=00_Af8NHVfqjjKsEUzPx2L6pbUzxzInatS7n70SqSMyOrNIMw&oe=6A246C5E",
+    image: imageUrl("owner.jpg"),
     signatureDish: "Rib Box",
   },
 
-  heroImage: "https://scontent-cpt1-1.xx.fbcdn.net/v/t39.30808-6/480581141_612304408220366_335162677023192495_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=B6KdSl0e65QQ7kNvwF3E8DL&_nc_oc=AdoPuswNSoRWxvsZP5fz5zhCC_c3Bw6JY52cFNSGavjccwDoslBZZv2iV7Y2t6Xzlt4&_nc_zt=23&_nc_ht=scontent-cpt1-1.xx&_nc_gid=YjgFJOXCpo_lSMR_YOHEOQ&_nc_ss=7b289&oh=00_Af8SWW52lk5GKvQiXojr0FEe6WItHRKGbbVuSOyJ9SefrA&oe=6A246C84",
-  interiorImage: "https://scontent-cpt1-1.xx.fbcdn.net/v/t39.30808-6/481990407_623775607073246_9101643582111009020_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=mouVvXzSQtMQ7kNvwGPt90L&_nc_oc=Adr9zMkTqkXY0srCoPsNMrYNqagtyQsB8J_UL8bPGqXEinTJ1iJFML2io-TAYYW14Sc&_nc_zt=23&_nc_ht=scontent-cpt1-1.xx&_nc_gid=1EsF7E40EP5NKKSD9vhLLg&_nc_ss=7b289&oh=00_Af8anyxjJkML84YjyajZOpADnGLB1lLFl3YdqyQRdtBWkQ&oe=6A247A9B",
+  heroImage: imageUrl("hero_image.jpg"),
+  interiorImage: imageUrl("in_image.jpg"),
 
   stats: [
     { label: "Established", value: "2022" },
@@ -302,16 +308,27 @@ export const siteConfig = {
   events: [] as EventListing[],
 
   gallery: [
-    "https://scontent-cpt1-1.xx.fbcdn.net/v/t39.30808-6/481330372_623898977060909_4459276160491978379_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=oWnGZLC5BNIQ7kNvwGt4jMz&_nc_oc=AdpkgmpdeFXA4jOurXKwIKEpRDftt3igdy1ytmHY_uGVYkMg4OORal_Sdb1F5x0U6zA&_nc_zt=23&_nc_ht=scontent-cpt1-1.xx&_nc_gid=Zqr8AKqaQnpZ67bIhBg_6Q&_nc_ss=7b289&oh=00_Af8f22yI_jW7yrFntq0Ld2pIHaLjg7ehSbay4v7aSokz_g&oe=6A245C31",
-    "https://scontent-cpt1-1.xx.fbcdn.net/v/t39.30808-6/481223788_621464163971057_6111423230615608318_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=HSPovp78EGYQ7kNvwGzJ_7l&_nc_oc=AdqMWogKdFSlDPXPNhWOdtx9BE7GCUwbGfhOUE6deVQ-MBcWbh6WBe4nhX31vK-6tUc&_nc_zt=23&_nc_ht=scontent-cpt1-1.xx&_nc_gid=YYDThekzLcwerLAF_Uj8zQ&_nc_ss=7b289&oh=00_Af_uGj_qiPQO3nlKv_Zj5hOGsxc-KZ9ll80Dv3ehcqMeZA&oe=6A2462FC",
-    "https://scontent-cpt1-1.xx.fbcdn.net/v/t39.30808-6/481081173_620724357378371_5559074575754404008_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=Qg2pExdpTRAQ7kNvwGg5PyC&_nc_oc=AdoeirlBP2MeLyQVIg5XWXAj-tDotvEVSHg5Zmr86NcG0g4jCSJEJl6afL65ybTB01Q&_nc_zt=23&_nc_ht=scontent-cpt1-1.xx&_nc_gid=2QAFunTpuo_q1JjhJwmeZA&_nc_ss=7b289&oh=00_Af8mBEd3cclOrvti7NvOz1A_aAJn8wLVfEh7eXLPAsU0KA&oe=6A2453D9",
-    "https://scontent-cpt1-1.xx.fbcdn.net/v/t39.30808-6/481059394_620724207378386_2570915905167065933_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=oAWV0qsBRuYQ7kNvwHX3g7-&_nc_oc=AdrMEWif19AZXOlDtcv8sgLIqbkZlE7Ppiq0So4zebAdrD3A92-BViR_TKWlHMXQ0mQ&_nc_zt=23&_nc_ht=scontent-cpt1-1.xx&_nc_gid=vsRZyLxkMTB0f5XdZ3qzhQ&_nc_ss=7b289&oh=00_Af9H34LS_zzegxB8Ln1tERNqQ6WnA0DkM7f3dq0vHiiNag&oe=6A246126",
-    "https://scontent-cpt1-1.xx.fbcdn.net/v/t39.30808-6/481900459_620723297378477_2143535696525668034_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=v6kOj6nOyscQ7kNvwGghiF2&_nc_oc=AdpjIkdzAhWtqz6rhWsAqmZs3moEV9Qe05WrW2-LyphHCGAGy5blG0JiG-YOKURrk1s&_nc_zt=23&_nc_ht=scontent-cpt1-1.xx&_nc_gid=WqLT7fznZHHDf1jq--bu5w&_nc_ss=7b289&oh=00_Af-XjtGuCLDarp6beG3F1vAS_s7z_mxMEKx4adDDcUl80Q&oe=6A245AA9",
-    "https://scontent-cpt1-1.xx.fbcdn.net/v/t39.30808-6/481083194_620723440711796_7531099129734140359_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=442K9J8sOYkQ7kNvwGpMuLa&_nc_oc=AdoKQVwhn7yGA8lLrUPEDQKf_DLyivSAWa6kCvP3VnUVEn6t4tCfGfA88RRO5NuvyEI&_nc_zt=23&_nc_ht=scontent-cpt1-1.xx&_nc_gid=IIQSuy7ozhz9iM-bm_-4DQ&_nc_ss=7b289&oh=00_Af_I2Gifs3HyzjdpkQye59g-9Y4iSaWDBVcxbpXqcEMtaQ&oe=6A24577D",
-    "https://scontent-cpt1-1.xx.fbcdn.net/v/t39.30808-6/481772188_620032474114226_5367894249099007801_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_ohc=mVsJRXJy2RQQ7kNvwF1klHP&_nc_oc=AdoDESk0XUzK1CtJln1Frhlnn7xWtn_cc5XSBa_S09_MpDojPXJ5NJqq0a-eyZbY_PY&_nc_zt=23&_nc_ht=scontent-cpt1-1.xx&_nc_gid=cltvF62UK2jfqNAOQUypbg&_nc_ss=7b289&oh=00_Af8AGQq8SzRRgk8XtUzkfBPNbg6fvInVXvDf_ttnc23jVw&oe=6A24737F",
-    "https://scontent-cpt1-1.xx.fbcdn.net/v/t39.30808-6/481159643_620017070782433_3640407460511111616_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=db-1p4MsYggQ7kNvwHFjH-A&_nc_oc=AdptOz7uOIIBrw5bNIPNVBAJ30GC5LlhM1s6OC3s5fRfRRZeEQUaAPLFRO-0rQuez-Q&_nc_zt=23&_nc_ht=scontent-cpt1-1.xx&_nc_gid=xCk74B3eUxKFAhlffAS3cg&_nc_ss=7b289&oh=00_Af-S6lAVES3psR9wKBxFIGVBLzB9W615sk2ZTu_AEDuAJA&oe=6A24513F",
-    "https://scontent-cpt1-1.xx.fbcdn.net/v/t39.30808-6/482024885_620016894115784_6393030030656684404_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=qsaGVX_EdjEQ7kNvwGWsYy8&_nc_oc=AdpwlLcTRkj2HQb7XKZQiOJMzsFFszVhe_stleXPrQ4YHoTToVjizebNLVxP1gWXmjw&_nc_zt=23&_nc_ht=scontent-cpt1-1.xx&_nc_gid=_xVL3srs2mrmEo_faPK9HQ&_nc_ss=7b289&oh=00_Af_UT3vQiN-UBh8B3eNgpUuei_8Qso59km5dHkX42fxRZQ&oe=6A24775D",
-  ],
+    "1.jpg",
+    "2.jpg",
+    "3.jpg",
+    "4.jpg",
+    "5.jpg",
+    "6.jpg",
+    "7.jpg",
+    "8.jpg",
+    "9.jpg",
+    "10.jpg",
+    "11.jpg",
+    "12.jpg",
+    "13.jpg",
+    "14.jpg",
+    "15.jpg",
+    "16.jpg",
+    "17.jpg",
+    "18.jpg",
+    "19.jpg",
+    "20.jpg",
+  ].map(imageUrl),
 
   reviews: [
     { name: "Amatullah H.", location: "Cape Town", stars: 5, quote: "All I can say is YOH!! Amazing, honestly well done. A huge variety of options - like Spur on steroids. Try the Turkish Delight gourmet shake. LIFE CHANGING!" },

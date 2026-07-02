@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { siteConfig, type MenuTag, type MenuEntry } from "@/siteConfig";
 import { Search, UtensilsCrossed } from "lucide-react";
 import { createImagePlaceholder, isFilled, setImageFallback } from "@/lib/utils";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 
 const CATEGORY_IDS: Record<string, string> = {
   Grills: "grills",
@@ -214,6 +215,7 @@ function MenuCard({ m }: { m: MenuEntry }) {
             Pairing note: {m.pairingNote}
           </p>
         )}
+        <AddToCartButton item={m} />
       </div>
     </article>
   );

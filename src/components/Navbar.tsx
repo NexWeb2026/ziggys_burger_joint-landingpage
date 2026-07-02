@@ -3,6 +3,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { siteConfig } from "@/siteConfig";
 import { SocialIcons } from "./SocialIcons";
+import { CartButton } from "@/components/cart/CartButton";
 import { createImagePlaceholder, setImageFallback } from "@/lib/utils";
 
 type SubLink = { label: string; to: string; hash?: string };
@@ -111,19 +112,22 @@ export function Navbar() {
           })}
         </nav>
 
-        <div className="hidden h-9 shrink-0 items-center lg:flex">
+        <div className="hidden h-9 shrink-0 items-center gap-3 lg:flex">
           <SocialIcons variant="color" size={18} />
+          <CartButton />
         </div>
 
-        <button
-          className="flex min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border lg:hidden"
-          style={{ borderColor: "var(--ui-border-strong)", color: "var(--ui-text)" }}
-          onClick={() => setMobileOpen((v) => !v)}
-          aria-label="Toggle menu"
-          type="button"
-        >
-          {mobileOpen ? <X /> : <Menu />}
-        </button>
+        <div className="flex items-center gap-2 lg:hidden">
+          <button
+            className="flex min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border"
+            style={{ borderColor: "var(--ui-border-strong)", color: "var(--ui-text)" }}
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label="Toggle menu"
+            type="button"
+          >
+            {mobileOpen ? <X /> : <Menu />}
+          </button>
+        </div>
       </div>
 
       {mobileOpen && (

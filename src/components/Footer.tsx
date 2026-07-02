@@ -3,8 +3,10 @@ import { siteConfig } from "@/siteConfig";
 import { SocialIcons } from "./SocialIcons";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { createImagePlaceholder, setImageFallback } from "@/lib/utils";
+import { useOpenStatus } from "@/lib/hooks";
 
 export function Footer() {
+  const { today } = useOpenStatus();
   if (!siteConfig.sections.footer) return null;
   const logoFallback = createImagePlaceholder(siteConfig.restaurantName, 340, 110);
   const showReservationsLink = siteConfig.integrations.reservationsEnabled && (siteConfig.sections.reservationForm || siteConfig.sections.privateDining || siteConfig.sections.reservations || siteConfig.sections.gifts);
@@ -36,12 +38,27 @@ export function Footer() {
           <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.14em]" style={{ color: "var(--brand-primary)" }}>When We're Open</h4>
           {siteConfig.sections.hours ? (
             <ul className="space-y-1 text-xs" style={{ color: "var(--ui-text-muted)" }}>
-              {siteConfig.hours.map((h) => (
-                <li key={h.day} className="flex justify-between gap-3">
-                  <span>{h.day}</span>
-                  <span>{h.isOpen ? `${h.openTime}-${h.closeTime}` : "Closed"}</span>
-                </li>
-              ))}
+              {siteConfig.hours.map((h) => {
+                const isToday = h.dayIndex === today?.dayIndex;
+                return (
+                  <li
+                    key={h.day}
+                    className="flex justify-between gap-3 rounded-md border px-2 py-1"
+                    style={{
+                      background: isToday ? "var(--brand-primary-opaque-12)" : "transparent",
+                      borderColor: isToday ? "var(--brand-primary)" : "transparent",
+                      color: isToday ? "var(--ui-text)" : undefined,
+                    }}
+                    aria-current={isToday ? "date" : undefined}
+                  >
+                    <span className={isToday ? "font-bold" : undefined}>
+                      {h.day}
+                      {isToday && <span className="ml-1.5 text-[0.6rem] font-black uppercase tracking-[0.12em]" style={{ color: "var(--brand-primary)" }}>Today</span>}
+                    </span>
+                    <span className={isToday ? "font-bold" : undefined}>{h.isOpen ? `${h.openTime}-${h.closeTime}` : "Closed"}</span>
+                  </li>
+                );
+              })}
             </ul>
           ) : (
             <p className="text-xs" style={{ color: "var(--ui-text-subtle)" }}>Hours currently hidden.</p>

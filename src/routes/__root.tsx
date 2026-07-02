@@ -4,13 +4,15 @@ import {
 } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import appCss from "../styles.css?url";
-import logoFavicon from "@/assets/png/logo.jpg";
+import logoFavicon from "@/assets/images/logo.jpg";
 
 import { Navbar } from "@/components/Navbar";
 import { StickyBanner } from "@/components/StickyBanner";
 import { Footer } from "@/components/Footer";
 import { MobileBar } from "@/components/MobileBar";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
+import { Toaster } from "@/components/ui/sonner";
+import { CartProvider } from "@/lib/cart";
 import { useHashScroll } from "@/lib/hooks";
 import { siteConfig } from "@/siteConfig";
 import { getThemeStyleVars } from "@/lib/utils";
@@ -107,6 +109,7 @@ function AppShell() {
       <Footer />
       <MobileBar />
       <WhatsAppFloat />
+      <Toaster position="top-center" richColors />
     </div>
   );
 }
@@ -115,7 +118,9 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <AppShell />
+      <CartProvider>
+        <AppShell />
+      </CartProvider>
     </QueryClientProvider>
   );
 }

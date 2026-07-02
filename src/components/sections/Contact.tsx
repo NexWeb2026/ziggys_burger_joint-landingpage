@@ -4,6 +4,7 @@ import { siteConfig } from "@/siteConfig";
 import { SocialIcons } from "@/components/SocialIcons";
 import { Phone, Mail, MapPin, Check, Accessibility, Car, CreditCard, Clock3 } from "lucide-react";
 import { isFilled, setImageFallback, createImagePlaceholder } from "@/lib/utils";
+import { useOpenStatus } from "@/lib/hooks";
 
 export function ContactDetails() {
   if (!siteConfig.sections.contactDetails) return null;
@@ -144,6 +145,7 @@ export function EventEnquiryForm() {
 }
 
 export function LocationSection() {
+  const { today } = useOpenStatus();
   const showMap = siteConfig.sections.locationMap;
   const showHours = siteConfig.sections.hours;
   const showFindUs = showMap || showHours || siteConfig.sections.location;
@@ -196,16 +198,16 @@ export function LocationSection() {
           </div>
         )}
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <Info icon={<MapPin size={18} />} label="Address">
             {siteConfig.location.address}
           </Info>
           <Info icon={<Car size={18} />} label="Parking">
             {siteConfig.location.parkingNote}
           </Info>
-          <Info icon={<Accessibility size={18} />} label="Accessibility">
+          {/* <Info icon={<Accessibility size={18} />} label="Accessibility">
             {siteConfig.location.accessibilityNote}
-          </Info>
+          </Info> */}
           <Info icon={<CreditCard size={18} />} label="Payment">
             {siteConfig.location.paymentMethods.join(" - ")}
           </Info>
@@ -218,12 +220,27 @@ export function LocationSection() {
               Hours
             </h4>
             <ul className="grid gap-1 text-sm sm:grid-cols-2 lg:grid-cols-4" style={{ color: "var(--ui-text-muted)" }}>
-              {siteConfig.hours.map((h) => (
-                <li key={h.day} className="flex justify-between rounded-lg px-3 py-2" style={{ background: "var(--ui-panel)" }}>
-                  <span>{h.day}</span>
-                  <span>{h.isOpen ? `${h.openTime}-${h.closeTime}` : "Closed"}</span>
-                </li>
-              ))}
+              {siteConfig.hours.map((h) => {
+                const isToday = h.dayIndex === today?.dayIndex;
+                return (
+                  <li
+                    key={h.day}
+                    className="flex justify-between gap-3 rounded-lg border px-3 py-2 transition-colors"
+                    style={{
+                      background: isToday ? "var(--brand-primary-opaque-12)" : "var(--ui-panel)",
+                      borderColor: isToday ? "var(--brand-primary)" : "transparent",
+                      color: isToday ? "var(--ui-text)" : undefined,
+                    }}
+                    aria-current={isToday ? "date" : undefined}
+                  >
+                    <span className="font-semibold">
+                      {h.day}
+                      {isToday && <span className="ml-2 text-[0.65rem] font-black uppercase tracking-[0.14em]" style={{ color: "var(--brand-primary)" }}>Today</span>}
+                    </span>
+                    <span className={isToday ? "font-bold" : undefined}>{h.isOpen ? `${h.openTime}-${h.closeTime}` : "Closed"}</span>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         )}

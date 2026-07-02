@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Calendar, BookOpen, Phone } from "lucide-react";
 import { siteConfig } from "@/siteConfig";
+import { CartButton } from "@/components/cart/CartButton";
 
 export function MobileBar() {
   if (!siteConfig.sections.mobileBar) return null;
@@ -38,6 +39,7 @@ export function MobileBar() {
           Menu
         </Link>
       )}
+      <CartButton compact />
       {showCall && (
         <a
           href={`tel:${siteConfig.contact.phone}`}
